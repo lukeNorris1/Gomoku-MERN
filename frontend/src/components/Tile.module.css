@@ -1,0 +1,28 @@
+.tile {
+  height: 2rem;
+  width: 2rem;
+  border: 1px solid #b1b2b2;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  box-sizing: border-box;
+  background-color: #b1b2b2;
+  cursor: pointer;
+  text-align: center;
+  }
+  
+  .tile.occupied {
+    background-color: rgba(0, 0, 0, .08);
+    cursor: not-allowed;
+  }
+
+  .tile.black {
+    background-color: black;
+  }
+
+  .tile.white {
+    background-color: white;
+  }
+  
+ 

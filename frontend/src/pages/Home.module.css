@@ -1,0 +1,41 @@
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 90%;
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+
+  .boardTitle{
+    margin-top: 2rem;
+    font-size: larger;
+    font-weight: bolder;
+  }
+  
+  .board {
+    display: flex;
+    flex-direction: column;
+    perspective: 500px;
+    padding: 0.5rem;
+    background-color: #fb723b;
+    border-radius: 20px;
+  }
+
+  .tiles {
+    display: grid;
+    gap: 0.2rem;
+    
+  }
+
+  .dropdown {
+    min-width: 200px;
+  }
+
+  .rules {
+    text-align: center;
+    line-height: 0.4;
+  }
+  
