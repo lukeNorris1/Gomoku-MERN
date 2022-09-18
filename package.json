@@ -3,7 +3,8 @@
   "main": "server.ts",
   "scripts": {
     "server": "ts-node-dev backend/server.ts",
-    "client": "npm start --prefix frontend"
+    "client": "npm start --prefix frontend",
+    "bootstrapdb": "ts-node backend/util/bootstrapDB.ts"
   },
   "keywords": [],
   "devDependencies": {

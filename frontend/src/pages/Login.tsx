@@ -21,7 +21,7 @@ export default function Login() {
     if (!user) {
       setIsCredentialInvalid(true);
     } else {
-      login(username)
+      login(username, password)
       navigate('/')
     }
   };

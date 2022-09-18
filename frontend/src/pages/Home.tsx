@@ -76,6 +76,7 @@ export default function Home() {
         <p>When there are five of the same coloured tiles in a row that player wins</p>
       </div>
 
+
     </div>
   );
 }

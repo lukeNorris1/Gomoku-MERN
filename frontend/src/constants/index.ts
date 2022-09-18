@@ -5,10 +5,6 @@ export enum TILE_STATUS {
   BLACK = "BLACK",
 }
 
-export enum PLAYER_TURN {
-  BLACK = "BLACK",
-  WHITE = "WHITE,",
-}
 
 export enum BoardActionType {
   SELECT = "SELECT",
@@ -18,3 +14,5 @@ export enum BoardActionType {
   WINNER = "WINNER",
   EMPTY = "EMPTY"
 }
+
+export const API_HOST = process.env.REACT_APP_API_HOST || ''

@@ -1,3 +1,9 @@
 export type User = {
-    username: string
-  }
+  _id: string
+  token: string
+}
+
+export type Credential = {
+  username: string
+  password: string
+}
