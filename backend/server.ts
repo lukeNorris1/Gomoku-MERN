@@ -7,10 +7,9 @@ import connectDB from "./config/db";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware";
 
 // Routes
-import roomRoutes from "./routes/roomRoutes";
-import userRoutes from "./routes/userRoutes";
-import bookingRoutes from "./routes/bookingRoutes";
-import uploadRoutes from "./routes/uploadRoutes";
+// import userRoutes from "./routes/userRoutes";
+// import bookingRoutes from "./routes/bookingRoutes";
+// import uploadRoutes from "./routes/uploadRoutes";
 
 import gameHandler from "./routes/games.handler";
 
@@ -27,26 +26,13 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // Default
 app.get("/api", (req: Request, res: Response) => {
-  res.status(201).json({ message: "Welcome to Hotel Booking App" });
+  res.status(201).json({ message: "Welcome to Gomoku App" });
 });
 
 // Room Route
 app.use("/api/games", gameHandler);
 
-// User Route
-app.use("/api/users", userRoutes);
 
-// Booking Route
-app.use("/api/bookings", bookingRoutes);
-
-// Upload Route
-app.use("/api/uploads", uploadRoutes);
-
-app.use("/", roomRoutes);
-
-app.get("/api/config/paypal", (req, res) => {
-  res.status(201).send(process.env.PAYPAL_CLIENT_ID);
-});
 
 app.use(errorHandler);
 app.use(notFound);
