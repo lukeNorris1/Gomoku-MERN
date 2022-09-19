@@ -1,12 +1,12 @@
 [
     {
       "_id": "62f875f70860a1d7140f99d1",
-      "title": "Sword",
-      "build": ["Bt", "Last Whisper", "Zeke's"]
+      "username": "Luke",
+      "password": "admin"
     },
     {
       "_id": "62f875f70860a1d7140f99d2",
-      "title": "Belt",
-      "build": ["Warmogs", "Sunfire Cape", "Zeke's"]
+      "username": "Doop",
+      "password": "admin2"
     }
   ]

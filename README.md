@@ -26,4 +26,7 @@ npm run client
 
 # Run backend
 npm run server
+
+# Run database pre-set data
+npm run bootstrapdb
 ```

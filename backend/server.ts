@@ -12,6 +12,8 @@ import userRoutes from "./routes/userRoutes";
 import bookingRoutes from "./routes/bookingRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
 
+import gameHandler from "./routes/games.handler";
+
 const app: Application = express();
 
 dotenv.config();
@@ -29,7 +31,7 @@ app.get("/api", (req: Request, res: Response) => {
 });
 
 // Room Route
-app.use("/api/rooms", roomRoutes);
+app.use("/api/games", gameHandler);
 
 // User Route
 app.use("/api/users", userRoutes);
