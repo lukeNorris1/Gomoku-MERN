@@ -11,7 +11,7 @@ import { errorHandler, notFound } from "./middlewares/errorMiddleware";
 // import bookingRoutes from "./routes/bookingRoutes";
 // import uploadRoutes from "./routes/uploadRoutes";
 
-import gameHandler from "./routes/games.handler";
+import gameHandler from "./handler/games.handler";
 
 const app: Application = express();
 

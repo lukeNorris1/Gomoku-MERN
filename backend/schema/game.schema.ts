@@ -12,4 +12,8 @@ export const getGameByIdSchema = object({
   ...params,
 })
 
+export const createGameSchema = object({
+  ...params,
+})
+
 export type getGameByIdInput = TypeOf<typeof getGameByIdSchema>
