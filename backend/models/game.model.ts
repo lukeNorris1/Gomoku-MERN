@@ -1,13 +1,18 @@
-import mongoose, { Document } from "mongoose"
+import mongoose, { Document } from "mongoose";
+import { number } from "zod";
 
 export interface GameDocument extends Document {
-    title: String,
-    moves: [Number]
+  size: number;
+  date: String;
+  winner: String;
+  moves: [Number];
 }
 
 const gameSchema = new mongoose.Schema({
-    title: String,
-    moves: [Number]
-})
+  size: Number,
+  date: String,
+  winner: String,
+  moves: [Number],
+});
 
-export default mongoose.model<GameDocument>("Game", gameSchema)
+export default mongoose.model<GameDocument>("Game", gameSchema);

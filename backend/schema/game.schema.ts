@@ -1,19 +1,38 @@
-import { string, object, TypeOf } from 'zod'
+import { string, object, TypeOf, array, number, date } from "zod";
 
 const params = {
   params: object({
     id: string({
-      required_error: 'Game id is required',
+      required_error: "Game id is required",
     }),
   }),
-}
+};
+
+const payload = {
+  body: object({
+    size: number({
+      required_error: "Size is required",
+    }),
+    date: string({
+      required_error: "Date is required",
+    }),
+    winner: string({
+      required_error: "Winner is required",
+    }),
+    moves: array(
+      number({
+        required_error: "Moves are required",
+      })
+    ).nonempty(),
+  }),
+};
 
 export const getGameByIdSchema = object({
   ...params,
-})
+});
 
 export const createGameSchema = object({
-  ...params,
-})
+  ...payload,
+});
 
-export type getGameByIdInput = TypeOf<typeof getGameByIdSchema>
+export type getGameByIdInput = TypeOf<typeof getGameByIdSchema>;
