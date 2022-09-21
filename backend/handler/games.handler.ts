@@ -10,7 +10,6 @@ import {
   createGame,
   updateGame,
 } from "../service/game.service";
-import { getSessionsByGameId } from "../service/session.service";
 
 const gameHandler = express.Router();
 
@@ -46,8 +45,7 @@ gameHandler.get(
 
     const game = await getGameById(gameId);
     if (!game) return res.sendStatus(404);
-    const sessions = await getSessionsByGameId(gameId);
-    return res.status(200).json({ ...game, sessions });
+    return res.status(200).json(game);
   }
 );
 
@@ -56,22 +54,9 @@ gameHandler.post(
   "/",
   validateSchema(createGameSchema),
   async (req: Request, res: Response) => {
-    // TODO: decode user id from token
-    //const userId = req.userId
     const game = req.body;
-    console.log(`Game Params: ${await req.params.size}`);
-    const gamesForTheSession = await getGamesByFilter({
-      sessionId: new mongoose.Types.ObjectId(game.sessionId),
-    });
-    // const allOccupiedSeats = gamesForTheSession.length
-    //   ? gamesForTheSession.map((b) => b.seats).flat()
-    //   : []
-    // const overlappingSeats = !!intersection(allOccupiedSeats, game.seats)
-    //   .length
-    // if (overlappingSeats) return res.sendStatus(400)
 
     const newBooking = await createGame({ ...game });
-    console.log(`New Booking: ${newBooking}`);
     // wss.clients.forEach((client) => {
     //   if (client.readyState === WebSocket.OPEN) {
     //     client.send(

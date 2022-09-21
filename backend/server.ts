@@ -12,6 +12,7 @@ import { errorHandler, notFound } from "./middlewares/errorMiddleware";
 // import uploadRoutes from "./routes/uploadRoutes";
 
 import gameHandler from "./handler/games.handler";
+import authHandler from "./handler/auth.handler";
 
 const app: Application = express();
 
@@ -31,6 +32,7 @@ app.get("/api", (req: Request, res: Response) => {
 
 // Room Route
 app.use("/api/games", gameHandler);
+app.use("/api/auth", authHandler);
 
 
 

@@ -13,6 +13,6 @@ const gameSchema = new mongoose.Schema({
   date: String,
   winner: String,
   moves: [Number],
-});
+}, { timestamps: true });
 
 export default mongoose.model<GameDocument>("Game", gameSchema);
