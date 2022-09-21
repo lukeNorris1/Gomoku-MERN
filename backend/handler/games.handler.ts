@@ -8,6 +8,7 @@ import {
   getGameById,
   getGamesByFilter,
   createGame,
+  updateGame,
 } from "../service/game.service";
 import { getSessionsByGameId } from "../service/session.service";
 
@@ -82,6 +83,50 @@ gameHandler.post(
     //   }
     // })
     return res.status(200).send(newBooking);
+  }
+);
+
+// Modify a booking
+gameHandler.put(
+  "/:id",
+  validateSchema(createGameSchema),
+  async (req: Request, res: Response) => {
+    // TODO: decode user id from token
+    //const userId = req.userId
+    const game = req.body;
+    const gameId = req.params.id;
+    console.log(`ID: ${gameId}`);
+
+    const gamesForTheSession = await getGamesByFilter({
+      _id: { $ne: new mongoose.Types.ObjectId(gameId) },
+    });
+    // const allOccupiedSeats = bookingsForTheSession.length
+    //   ? bookingsForTheSession.map((b) => b.seats).flat()
+    //   : []
+    // const overlappingSeats = !!intersection(allOccupiedSeats, booking.seats)
+    //   .length
+    //if (overlappingSeats) return res.sendStatus(400)
+
+    const newGame = await updateGame(gameId, {
+      ...game,
+    });
+
+    console.log(`Moves: ${await newGame!.moves}`)
+    //! CHECK GAME STATE AND RETURN WINNER/DRAW/NO-WINNER
+
+    if (!newGame) return res.sendStatus(404);
+    // wss.clients.forEach((client) => {
+    //   if (client.readyState === WebSocket.OPEN) {
+    //     client.send(
+    //       JSON.stringify({
+    //         updateBy: userId,
+    //         sessionId: booking.sessionId,
+    //         occupiedSeats: [...allOccupiedSeats, ...booking.seats],
+    //       })
+    //     )
+    //   }
+    // })
+    return res.status(200).json(newGame);
   }
 );
 

@@ -16,8 +16,6 @@ const run = async () => {
     await GameModel.deleteMany();
     await GameModel.insertMany(games)
 
-    console.log(`Users: ${await UserModel.find()}`);
-
     process.exit(0);
   } catch (err) {
     console.log(err);
