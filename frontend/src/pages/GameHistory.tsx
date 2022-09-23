@@ -14,10 +14,10 @@ export default function GameHistory() {
 
   const fetchGameDetails = useCallback(async () => {
     try {
-      const fetchedMovie = await get<any[]>("http://localhost:5000/api/games");
+      const fetchedMovie = await get<boardInfo[]>("http://localhost:5000/api/games");
       setGames(fetchedMovie);
       //! CHANGE THE BOARDINFO TYPE TO ACCEPT _ID SO WE CAN USE IT FOR THE INDIVIDUAL PAGES
-      console.log(fetchedMovie.map((e) => e._id));
+      console.log(fetchedMovie.map((e) => e));
     } catch (error) {
       console.log(error);
     }
@@ -30,16 +30,16 @@ export default function GameHistory() {
   return (
     <div className={style.container}>
       {games?.map((board, key) => {
-        const { size, date, winner, moves } = board;
+        const { size, created, winner, moves, _id } = board;
         return (
           <div className={style.list} key={key}>
             <p className={style.title}>
               {`Game #${key}}
-                   @ ${date}  - Winner is ${winner}`}
+                   @ ${created}  - Winner is ${winner}`}
             </p>
             <button
               className={style.button}
-              onClick={() => navigate(`/game-log:${1}`)}
+              onClick={() => navigate(`/game-log:${_id}`)}
             >
               View game log
             </button>

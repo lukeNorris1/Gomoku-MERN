@@ -1,9 +1,7 @@
-
-
 export type boardInfo = {
-    size?: number;
-    date: string;
-    winner: string;
-    moves: number[];
-  };
-
+  size?: number;
+  created?: string;
+  winner: string;
+  moves: number[];
+  _id?: string;
+};

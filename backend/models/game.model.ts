@@ -3,16 +3,19 @@ import { number } from "zod";
 
 export interface GameDocument extends Document {
   size: number;
-  date: String;
   winner: String;
   moves: [Number];
+  createdAt: Date;
 }
 
-const gameSchema = new mongoose.Schema({
-  size: Number,
-  date: String,
-  winner: String,
-  moves: [Number],
-}, { timestamps: true });
+const gameSchema = new mongoose.Schema(
+  {
+    size: Number,
+    winner: String,
+    moves: [Number],
+    createdAt: Date,
+  },
+  { timestamps: true }
+);
 
 export default mongoose.model<GameDocument>("Game", gameSchema);

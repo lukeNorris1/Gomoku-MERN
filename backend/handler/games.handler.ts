@@ -26,9 +26,9 @@ gameHandler.get("/", async (req: Request, res: Response) => {
       result.map((m) => ({
         _id: m._id,
         size: m.size,
-        date: m.date,
         winner: m.winner,
         moves: m.moves,
+        created: m.createdAt,
       }))
     );
   } catch (err) {
@@ -96,7 +96,7 @@ gameHandler.put(
       ...game,
     });
 
-    console.log(`Moves: ${await newGame!.moves}`)
+    console.log(`Moves: ${await newGame!.moves}`);
     //! CHECK GAME STATE AND RETURN WINNER/DRAW/NO-WINNER
 
     if (!newGame) return res.sendStatus(404);

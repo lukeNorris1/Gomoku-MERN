@@ -13,9 +13,6 @@ const payload = {
     size: number({
       required_error: "Size is required",
     }),
-    date: string({
-      required_error: "Date is required",
-    }),
     winner: string({
       required_error: "Winner is required",
     }),

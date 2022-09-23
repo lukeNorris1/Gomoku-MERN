@@ -1,10 +1,11 @@
-import { useState, useContext, useReducer, useEffect } from "react";
+import { useState, useContext, useReducer, useEffect, useCallback } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { BoardContext, UserContext } from "../context";
 import { Tile } from "../components";
 import { useLocalStorage } from "../hooks";
 import { BoardActionType, TILE_STATUS } from "../constants";
 import { boardInfo } from "../types";
+import { post } from "../utils/http";
 import style from "./Game.module.css";
 
 type BoardAction = {
@@ -12,37 +13,30 @@ type BoardAction = {
   payload: any;
 };
 
+
+
 function boardReducer(state: boardInfo, action: BoardAction) {
-  const { size, date, winner, moves } = state;
+  const { size, winner, moves } = state;
   const { type, payload } = action;
   switch (type) {
     case BoardActionType.SELECT:
       return {
         size: size,
-        date: date,
         winner: winner,
         moves: [...moves, payload],
       };
     case BoardActionType.SIZE:
-      return { size: payload, date: date, winner: winner, moves: moves };
+      return { size: payload, winner: winner, moves: moves };
     case BoardActionType.DATE:
-      return { size: size, date: payload, winner: winner, moves: moves };
+      return { size: size, winner: winner, moves: moves };
     case BoardActionType.WINNER:
-      return { size: size, date: date, winner: payload, moves: moves };
+      return { size: size, winner: payload, moves: moves };
     case BoardActionType.EMPTY:
-      return { size: size, date: date, winner: winner, moves: [] };
+      return { size: size, winner: winner, moves: [] };
     default:
       return state;
   }
 }
-
-const getDate: () => string = () => {
-  const currentDate = new Date();
-  return `
-    ${currentDate.getDate()}/
-    ${currentDate.getMonth() + 1}/
-    ${currentDate.getFullYear()}`.replace(/\s/g, "");
-};
 
 export default function Game() {
   const { board } = useContext(BoardContext);
@@ -60,23 +54,24 @@ export default function Game() {
     `boards`,
     {}
   );
-  // eslint-disable-next-line
-  const {
-    [`board-${boardAddition}`]: selectedTiles = {},
-    currentBoard = { size: 0, date: "", winner: "", moves: [] },
-    ...otherBoards
-  } = boards;
+
+  const currentBoard = { size: board?.boardSize || 15, winner: "", moves: [1,2,3,4] };
+
+  const fetchGameDetails = useCallback(async () => {
+    try {
+      const fetchedMovie = await post<any, boardInfo>("http://localhost:5000/api/games", currentBoard);
+      //console.log(fetchedMovie.map((e) => e));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  fetchGameDetails()
+  
 
   const [state, dispatch] = useReducer(boardReducer, currentBoard);
 
-  useEffect(() => {
-    setBoardAddition(Object.keys(boards).length);
-    if (board?.boardSize) {
-      setLocalBoardSize(board.boardSize);
-      dispatch({ type: BoardActionType.SIZE, payload: board.boardSize });
-    }
-    dispatch({ type: BoardActionType.DATE, payload: getDate() });
-  }, []);
+
 
   useEffect(() => {
     gameFinishCheck();
