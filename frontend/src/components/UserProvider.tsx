@@ -1,35 +1,42 @@
-import { User, Credential } from '../types'
-import { UserContext } from '../context'
-import { useLocalStorage } from '../hooks'
-import { post, setToken } from '../utils/http'
-import { API_HOST } from '../constants'
+import { User, Credential } from "../types";
+import { UserContext } from "../context";
+import { useLocalStorage } from "../hooks";
+import dotenv from "dotenv";
+import { post, setToken } from "../utils/http";
+import { API_HOST } from "../constants";
 
 type UserProviderProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
+
+dotenv.config();
+console.log(`URL = ${API_HOST}`);
 
 export default function UserProvider({ children }: UserProviderProps) {
-  const [user, setUser] = useLocalStorage<User | undefined>('user', undefined)
+  const [user, setUser] = useLocalStorage<User | undefined>("user", undefined);
   if (user) {
-    setToken(user.token)
+    setToken(user.token);
   }
 
   const login = async (username: string, password: string) => {
     try {
-      const user = await post<Credential, User>(`${API_HOST}/api/auth/login`, {
-        username,
-        password,
-      })
-      setUser(user)
-      setToken(user.token)
-      return true
+      const user = await post<Credential, User>(
+        `http://localhost:5000/api/auth/login`,
+        {
+          username,
+          password,
+        }
+      );
+      setUser(user);
+      setToken(user.token);
+      return true;
     } catch (error) {
       if (error instanceof Error) {
-        return error.message
+        return error.message;
       }
-      return 'Unable to login at this moment, please try again'
+      return "Unable to login at this moment, please try again";
     }
-  }
+  };
 
   const register = async (username: string, password: string) => {
     try {
@@ -39,26 +46,26 @@ export default function UserProvider({ children }: UserProviderProps) {
           username,
           password,
         }
-      )
-      setUser(user)
-      setToken(user.token)
-      return true
+      );
+      setUser(user);
+      setToken(user.token);
+      return true;
     } catch (error) {
       if (error instanceof Error) {
-        return error.message
+        return error.message;
       }
-      return 'Unable to login at this moment, please try again'
+      return "Unable to login at this moment, please try again";
     }
-  }
+  };
 
   const logout = () => {
-    setUser(undefined)
-    setToken('')
-  }
+    setUser(undefined);
+    setToken("");
+  };
 
   return (
     <UserContext.Provider value={{ user, login, register, logout }}>
       {children}
     </UserContext.Provider>
-  )
+  );
 }
