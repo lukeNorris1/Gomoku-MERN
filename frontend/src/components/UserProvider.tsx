@@ -10,7 +10,6 @@ type UserProviderProps = {
 };
 
 dotenv.config();
-console.log(`URL = ${API_HOST}`);
 
 export default function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useLocalStorage<User | undefined>("user", undefined);

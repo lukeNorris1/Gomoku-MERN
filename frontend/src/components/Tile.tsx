@@ -6,12 +6,12 @@ import style from "./Tile.module.css";
 
 type TileProps = {
   id: number;
-  isSelected?: boolean
-  dispatch: React.Dispatch<BoardAction>
-  player?: string
-  status: TILE_STATUS
-  order: number
-  text?: string
+  isSelected?: boolean;
+  dispatch: React.Dispatch<BoardAction>;
+  player?: string;
+  status: TILE_STATUS;
+  order: number;
+  text?: string;
 };
 
 const getClassNames = (status: TILE_STATUS) => {
@@ -34,16 +34,16 @@ export default memo(function Tile({
   status,
   order,
 }: TileProps) {
-  if (status === TILE_STATUS.BLACK || status === TILE_STATUS.WHITE) isSelected = true
-
+  if (status === TILE_STATUS.BLACK || status === TILE_STATUS.WHITE)
+    isSelected = true;
 
   const handleClick = () => {
     if (!isSelected) {
       if (status === TILE_STATUS.AVAILABLE && player === "Black") {
-        status = TILE_STATUS.BLACK
+        status = TILE_STATUS.BLACK;
         dispatch({ type: BoardActionType.SELECT, payload: id });
       } else if (status === TILE_STATUS.AVAILABLE && player === "White") {
-        status = TILE_STATUS.WHITE
+        status = TILE_STATUS.WHITE;
         dispatch({ type: BoardActionType.SELECT, payload: id });
       }
     } else dispatch({ type: BoardActionType.EMPTY, payload: id });

@@ -14,8 +14,8 @@ export enum BoardActionType {
   DATE = "DATE",
   WINNER = "WINNER",
   EMPTY = "EMPTY",
+  ID = "ID",
 }
 
 dotenv.config();
 export const API_HOST = process.env.PORT;
-console.log(`URL = ${API_HOST}`);

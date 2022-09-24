@@ -1,6 +1,6 @@
 import { useLocalStorage } from "../hooks";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useCallback, useContext } from "react";
+import { useEffect, useState, useCallback, useContext, useMemo } from "react";
 import { boardInfo } from "../types";
 import { UserContext } from "../context";
 import { get } from "../utils/http";
@@ -14,14 +14,15 @@ export default function GameHistory() {
 
   const fetchGameDetails = useCallback(async () => {
     try {
-      const fetchedMovie = await get<boardInfo[]>("http://localhost:5000/api/games");
-      setGames(fetchedMovie);
-      //! CHANGE THE BOARDINFO TYPE TO ACCEPT _ID SO WE CAN USE IT FOR THE INDIVIDUAL PAGES
+      const fetchedMovie = await get<boardInfo[]>(
+        "http://localhost:5000/api/games"
+      );
+      //setGames(fetchedMovie);
       console.log(fetchedMovie.map((e) => e));
     } catch (error) {
       console.log(error);
     }
-  }, [logout, navigate]);
+  }, []);
 
   useEffect(() => {
     fetchGameDetails();

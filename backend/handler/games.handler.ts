@@ -100,17 +100,6 @@ gameHandler.put(
     //! CHECK GAME STATE AND RETURN WINNER/DRAW/NO-WINNER
 
     if (!newGame) return res.sendStatus(404);
-    // wss.clients.forEach((client) => {
-    //   if (client.readyState === WebSocket.OPEN) {
-    //     client.send(
-    //       JSON.stringify({
-    //         updateBy: userId,
-    //         sessionId: booking.sessionId,
-    //         occupiedSeats: [...allOccupiedSeats, ...booking.seats],
-    //       })
-    //     )
-    //   }
-    // })
     return res.status(200).json(newGame);
   }
 );
