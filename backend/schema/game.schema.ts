@@ -19,8 +19,7 @@ const payload = {
     moves: array(
       number({
         required_error: "Moves are required",
-      })
-    ).nonempty(),
+      })),
   }),
 };
 
@@ -31,5 +30,9 @@ export const getGameByIdSchema = object({
 export const createGameSchema = object({
   ...payload,
 });
+
+export const deleteGameSchema = object({
+  ...params,
+})
 
 export type getGameByIdInput = TypeOf<typeof getGameByIdSchema>;

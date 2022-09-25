@@ -11,7 +11,7 @@ import { Tile } from "../components";
 import { useLocalStorage } from "../hooks";
 import { BoardActionType, TILE_STATUS } from "../constants";
 import { boardInfo } from "../types";
-import { post, put } from "../utils/http";
+import { post, put, del } from "../utils/http";
 import style from "./Game.module.css";
 
 type BoardAction = {
@@ -57,7 +57,7 @@ export default function Game() {
   const currentBoard = {
     size: board?.boardSize || 15,
     winner: " ",
-    moves: [1, 3, 3, 4, 5, 6, 7, 8, 9, 9],
+    moves: [],
   };
   const [state, dispatch] = useReducer(boardReducer, currentBoard);
 
@@ -68,8 +68,6 @@ export default function Game() {
         state
       );
 
-      console.log(fetchedMovie);
-      console.log(`ID: ${fetchedMovie._id}`);
       setGameDetails(fetchedMovie);
       return fetchGameDetails;
     } catch (error) {
@@ -81,32 +79,29 @@ export default function Game() {
     const date = fetchGameDetails();
   }, []);
 
-  // const updateGameDetails = useCallback(async () => {
-  //   try {
-  //     const fetchedMovie = await put<boardInfo, boardInfo>(
-  //       `http://localhost:5000/api/games/${state.}`,
-  //       state
-  //     );
-  //     console.log(fetchedMovie);
-  //     console.log(`ID: ${fetchedMovie._id}`);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, []);
   const handleConfirmClick = async (test: any) => {
-    console.log(`State; ${state.moves}`);
-    const putGame: boardInfo = await put(`http://localhost:5000/api/games/${gameDetails?._id}`, {
-      state,
-      winner: "me222",
-      size: state.size,
-      moves: state.moves,
-    });
-    console.log(`Return: ${putGame.moves}`)
+    const putGame: boardInfo = await put(
+      `http://localhost:5000/api/games/${gameDetails?._id}`,
+      {
+        state,
+        winner: "",
+        size: state.size,
+        moves: state.moves,
+      }
+    );
+    if (
+      putGame.winner == "Black" ||
+      putGame.winner == "White" ||
+      putGame.winner == "Draw"
+    ) {
+      dispatch({ type: BoardActionType.WINNER, payload: putGame.winner });
+      setGameEnd(true);
+      setPlayer("");
+    }
   };
 
   useEffect(() => {
-    console.log(state.moves);
-    handleConfirmClick("test");
+    if (!gameEnd) handleConfirmClick("test");
     //updateGameDetails()
   }, [state.moves]);
 
@@ -119,84 +114,16 @@ export default function Game() {
 
   const restartClick = () => {
     dispatch({ type: BoardActionType.EMPTY, payload: "" });
+    dispatch({ type: BoardActionType.WINNER, payload: "" });
     setPlayer("Black");
+    setGameEnd(false)
   };
 
   function leaveButton() {
     if (gameEnd) {
-      //saveBoards({ ...boards, [`board-${boardAddition}`]: state });
       navigate("/gameHistory");
     } else navigate("/");
   }
-
-  function indexOfTile(value: number) {
-    return state.moves.indexOf(value);
-  }
-
-  //! MOVE TO PUT REQUEST
-  function gameFinishCheck() {
-    if (state.moves.length < 9) return;
-    const base = state.moves[state.moves.length - 1];
-    if (
-      checkWinBlock(base, 1) ||
-      checkWinBlock(base, state.size) ||
-      checkWinBlock(base, state.size + 1) ||
-      checkWinBlock(base, state.size - 1)
-    ) {
-      setGameEnd(true);
-      if (player === "White") {
-        dispatch({ type: BoardActionType.WINNER, payload: "Black" });
-      } else {
-        dispatch({ type: BoardActionType.WINNER, payload: "White" });
-      }
-      setPlayer("");
-    }
-    if (state.moves.length === state.size * state.size) {
-      setGameEnd(true);
-      setPlayerMessage("Draw");
-      dispatch({ type: BoardActionType.WINNER, payload: "Draw" });
-      setPlayer("");
-    }
-  }
-
-  function checkWinBlock(baseCase: number, tileDiff: number) {
-    if (!baseCase) return;
-    var counter = 1;
-    var iterator = tileDiff;
-    for (var i: number = 1; i < 5; i++) {
-      if (
-        state.moves.includes(baseCase - iterator) &&
-        baseCase - iterator >= 0
-      ) {
-        if (
-          (indexOfTile(baseCase) % 2 === 0) ===
-          (indexOfTile(baseCase - iterator) % 2 === 0)
-        ) {
-          counter += 1;
-          iterator += tileDiff;
-        }
-      } else break;
-    }
-    iterator = tileDiff;
-    for (i = 1; i < 5; i++) {
-      if (
-        state.moves.includes(baseCase + iterator) &&
-        baseCase + iterator >= 0
-      ) {
-        if (
-          (indexOfTile(baseCase) % 2 === 0) ===
-          (indexOfTile(baseCase + iterator) % 2 === 0)
-        ) {
-          counter += 1;
-          iterator += tileDiff;
-        }
-      } else break;
-    }
-    if (counter >= 5) {
-      return true;
-    }
-  }
-  //!_-------------------------
 
   const togglePlayer = () => {
     if (!gameEnd) player === "Black" ? setPlayer("White") : setPlayer("Black");

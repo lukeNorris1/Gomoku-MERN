@@ -14,11 +14,13 @@ MONGO_URI = your mongodb uri
 
 ```
 npm install
-cd frontend
-npm install
+npm install ./frontend
 ```
 
 ### Run
+
+# Run Frontend and backend
+npm run dev
 
 ```
 # Run frontend
@@ -27,6 +29,6 @@ npm run client
 # Run backend
 npm run server
 
-# Run database pre-set data
+# Run database - empty data
 npm run bootstrapdb
 ```

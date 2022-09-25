@@ -4,9 +4,9 @@
   "scripts": {
     "server": "ts-node-dev backend/server.ts",
     "client": "npm start --prefix frontend",
-    "bootstrapdb": "ts-node backend/util/bootstrapDB.ts"
+    "bootstrapdb": "ts-node backend/util/bootstrapDB.ts",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "keywords": [],
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/bcryptjs": "^2.4.2",
@@ -17,6 +17,8 @@
     "@types/multer": "^1.4.7",
     "@types/node": "^17.0.12",
     "@types/ws": "^8.5.3",
+    "concurrently": "^7.4.0",
+    "nodemon": "^2.0.20",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.5"
   },
@@ -32,6 +34,7 @@
     "moment-range": "^4.0.2",
     "mongoose": "^6.1.8",
     "multer": "^1.4.4",
+    "une-cinema-react": "file:frontend",
     "ws": "^8.8.1",
     "zod": "^3.19.1"
   }

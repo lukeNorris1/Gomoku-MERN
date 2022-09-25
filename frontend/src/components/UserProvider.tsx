@@ -27,7 +27,6 @@ export default function UserProvider({ children }: UserProviderProps) {
         }
       );
       setUser(user);
-      setToken(user.token);
       return true;
     } catch (error) {
       if (error instanceof Error) {
@@ -40,14 +39,13 @@ export default function UserProvider({ children }: UserProviderProps) {
   const register = async (username: string, password: string) => {
     try {
       const user = await post<Credential, User>(
-        `${API_HOST}/api/auth/register`,
+        `http://localhost:5000/api/auth/register`,
         {
           username,
           password,
         }
       );
       setUser(user);
-      setToken(user.token);
       return true;
     } catch (error) {
       if (error instanceof Error) {

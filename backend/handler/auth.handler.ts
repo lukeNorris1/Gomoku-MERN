@@ -7,7 +7,6 @@ import {
   RegisterInput,
   registerSchema,
 } from "../schema/auth.schema";
-import { signJwt } from "../util/jwt";
 
 const authHandler = express.Router();
 
@@ -35,13 +34,9 @@ authHandler.post(
         password: encryptedPassword,
       });
 
-      
       // return new user with token
       res.status(200).json({ _id: newUser._id });
 
-      //! REMOVED AUTHENTICATION - TO BE FIXED
-      //const token = signJwt({ username, _id: newUser._id });
-      //res.status(200).json({ _id: newUser._id, token });
     } catch (err) {
       console.log(err);
       return res.status(500).send(err);
@@ -61,9 +56,6 @@ authHandler.post(
 
       if (user && (await bcrypt.compare(password, user.password))) {
         return res.status(200).json({ _id: user._id});
-        //! REMOVED AUTHENTICATION - TO BE FIXED
-        // const token = signJwt({ username, _id: user._id });
-        //return res.status(200).json({ _id: user._id, token});
       }
       return res.status(400).send("Invalid Credentials");
     } catch (err) {

@@ -2,19 +2,15 @@ import "dotenv/config";
 import connect from "../config/db";
 
 import UserModel from "../models/user.model";
-import GameModel from "../models/game.model"
+import GameModel from "../models/game.model";
 import movies from "../data/movies.json";
-import games from "../data/games.json"
+import games from "../data/games.json";
 
 const run = async () => {
   try {
     await connect();
 
-    await UserModel.deleteMany();
-    await UserModel.insertMany(movies);
-
     await GameModel.deleteMany();
-    await GameModel.insertMany(games)
 
     process.exit(0);
   } catch (err) {

@@ -4,17 +4,12 @@ import { UserContext, BoardContext } from "../context";
 import { Button, DisplayTile } from "../components";
 import style from "./Home.module.css";
 
-import { get } from '../utils/http'
-import { getMouseEventOptions } from "@testing-library/user-event/dist/utils";
-
 export default function Home() {
   const { user } = useContext(UserContext);
   const { changeBoard } = useContext(BoardContext);
   const [boardSize, setBoardSize] = useState(5);
   const navigate = useNavigate();
   
- 
-
   function startPress() {
     if (!user) navigate("/login");
     else {

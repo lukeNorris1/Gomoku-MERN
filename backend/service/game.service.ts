@@ -31,3 +31,9 @@ export async function updateGame(
     { new: true } // new option to true to return the document after update was applied.
   )
 }
+
+export async function deleteGame(id: string, ) {
+  return GameModel.deleteOne({
+    _id: new mongoose.Types.ObjectId(id)
+  })
+}

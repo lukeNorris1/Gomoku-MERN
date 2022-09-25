@@ -1,26 +1,33 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useLocalStorage } from "../hooks";
 import { boardInfo } from "../types";
-import {  Button, DisplayTile } from "../components";
+import { Button, DisplayTile } from "../components";
 import style from "./GameHistoryDetails.module.css";
+import { useEffect, useState } from "react";
+import { get } from "../utils/http";
 
 export default function GameHistoryDetails() {
-  const { boardId } = useParams();
+  const { boardId = '' } = useParams();
   const navigate = useNavigate();
-  const [boards] = useLocalStorage<Record<string, boardInfo>>(`boards`, {});
+  const [gameDetails, setGameDetails] = useState<boardInfo>()
 
+
+  const fetchGameDetails = async (id: string) => {
+    const fetchedGame = await get<boardInfo>(`http://localhost:5000/api/games/${boardId?.split(":")[1]}`)
+    setGameDetails(fetchedGame)
+  }
+
+  useEffect(() => {
+    fetchGameDetails(boardId);
+  }, [boardId])
+
+  if (!gameDetails) return null
   
+  const { size, winner, moves } = gameDetails;
 
-  const boardIdentifier = boardId?.split(":")[1]
-  
-  const { size, winner, moves} = boards[`board-${boardIdentifier}`]
-
-  const tempSize = size || 15
-
-  function tileColor(index: number){
-    const tileIndex = moves.indexOf(index)
-    if (moves.includes(index) && tileIndex % 2 === 1) return 'White'
-    else return 'Black' 
+  function tileColor(index: number) {
+    const tileIndex = moves.indexOf(index);
+    if (moves.includes(index) && tileIndex % 2 === 1) return "White";
+    else return "Black";
   }
 
   return (
@@ -31,7 +38,7 @@ export default function GameHistoryDetails() {
           className={style.tiles}
           style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
         >
-          {[...Array(tempSize  * tempSize)].map((key, index) => (
+          {[...Array(size! * size!)].map((key, index) => (
             <DisplayTile
               key={`tile-${index}`}
               id={index}
@@ -42,7 +49,13 @@ export default function GameHistoryDetails() {
           ))}
         </div>
       </div>
-      <Button onClick={() => {navigate("/gameHistory")}}>Back</Button>
+      <Button
+        onClick={() => {
+          navigate("/gameHistory");
+        }}
+      >
+        Back
+      </Button>
     </div>
   );
 }

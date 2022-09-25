@@ -7,18 +7,22 @@ import { get } from "../utils/http";
 import style from "./GameHistory.module.css";
 
 export default function GameHistory() {
-  const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
 
   const [games, setGames] = useState<boardInfo[]>();
 
   const fetchGameDetails = useCallback(async () => {
     try {
-      const fetchedMovie = await get<boardInfo[]>(
+      const fetchedGame = await get<boardInfo[]>(
         "http://localhost:5000/api/games"
       );
-      //setGames(fetchedMovie);
-      console.log(fetchedMovie.map((e) => e));
+
+      
+      setGames(fetchedGame.filter(e => 
+        e.winner === "Black" || 
+        e.winner === "White" || 
+        e.winner === "Draw"
+        ));
     } catch (error) {
       console.log(error);
     }
@@ -31,12 +35,12 @@ export default function GameHistory() {
   return (
     <div className={style.container}>
       {games?.map((board, key) => {
-        const { size, created, winner, moves, _id } = board;
+        const { created, winner, _id } = board;
         return (
           <div className={style.list} key={key}>
             <p className={style.title}>
-              {`Game #${key}}
-                   @ ${created}  - Winner is ${winner}`}
+              {`Game #${key}
+                   @ ${created?.substring(0, created.indexOf('T'))}  - Winner is ${winner}`}
             </p>
             <button
               className={style.button}
