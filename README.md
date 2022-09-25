@@ -1,9 +1,7 @@
 
-
-
 ### Env Variables
 
-Create a .env file in then root and add the following
+Modify base env file to configure port and url
 
 ```
 NODE_ENV = development
@@ -31,4 +29,12 @@ npm run server
 
 # Run database - empty data
 npm run bootstrapdb
+```
+
+```
+# Access to Frontend
+- go to [http://localhost:3000](http://localhost:3000)
+
+# Access to backend
+- go to [http://localhost:5000](http://localhost:5000)
 ```

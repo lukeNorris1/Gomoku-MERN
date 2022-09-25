@@ -98,7 +98,7 @@ gameHandler.get("/", async (req: Request, res: Response) => {
   }
 });
 
-// GET movie by ID, expecting movie + session info
+// GET game by ID
 gameHandler.get(
   "/:id",
   validateSchema(getGameByIdSchema),
@@ -111,51 +111,28 @@ gameHandler.get(
   }
 );
 
-// Create a booking
+// Create a game
 gameHandler.post(
   "/",
   validateSchema(createGameSchema),
   async (req: Request, res: Response) => {
     const game = req.body;
 
-    const newBooking = await createGame({ ...game });
-    // wss.clients.forEach((client) => {
-    //   if (client.readyState === WebSocket.OPEN) {
-    //     client.send(
-    //       JSON.stringify({
-    //         updateBy: userId,
-    //         sessionId: game.sessionId,
-    //       })
-    //     )
-    //   }
-    // })
-    return res.status(200).send(newBooking);
+    const newGame = await createGame({ ...game });
+    return res.status(200).send(newGame);
   }
 );
 
-// Modify a booking
+// Modify a game
 gameHandler.put(
   "/:id",
   validateSchema(createGameSchema),
   async (req: Request, res: Response) => {
-    // TODO: decode user id from token
-    //const userId = req.userId
     let game = req.body;
     const gameId = req.params.id;
 
     gameFinishCheck(game)
 
-    //Calculate game win condition and change game then return it
-
-    const gamesForTheSession = await getGamesByFilter({
-      _id: { $ne: new mongoose.Types.ObjectId(gameId) },
-    });
-    // const allOccupiedSeats = bookingsForTheSession.length
-    //   ? bookingsForTheSession.map((b) => b.seats).flat()
-    //   : []
-    // const overlappingSeats = !!intersection(allOccupiedSeats, booking.seats)
-    //   .length
-    //if (overlappingSeats) return res.sendStatus(400)
 
     const newGame = await updateGame(gameId, {
       ...game,
@@ -163,10 +140,11 @@ gameHandler.put(
 
 
     if (!newGame) return res.sendStatus(404);
-    return res.status(200).json(newGame);
+    return res.status(200).json(newGame.winner);
   }
 );
 
+//Delete a game by Id
 gameHandler.delete(
   '/:id',
   validateSchema(deleteGameSchema),
