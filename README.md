@@ -7,6 +7,7 @@ Modify base env file to configure port and url
 NODE_ENV = development
 PORT = 5000
 MONGO_URI = your mongodb uri
+```
 
 ## Install Dependencies
 
@@ -16,7 +17,6 @@ npm install ./frontend
 ```
 
 ### Run
-
 # Run Frontend and backend
 ```
 npm run dev
