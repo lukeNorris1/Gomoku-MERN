@@ -80,7 +80,7 @@ export default function Game() {
   }, []);
 
   const handleConfirmClick = async (test: any) => {
-    const putGame: boardInfo = await put(
+    const putGame = await put(
       `http://localhost:5000/api/games/${gameDetails?._id}`,
       {
         state,
@@ -90,11 +90,11 @@ export default function Game() {
       }
     );
     if (
-      putGame.winner == "Black" ||
-      putGame.winner == "White" ||
-      putGame.winner == "Draw"
+      putGame == "Black" ||
+      putGame == "White" ||
+      putGame == "Draw"
     ) {
-      dispatch({ type: BoardActionType.WINNER, payload: putGame.winner });
+      dispatch({ type: BoardActionType.WINNER, payload: putGame });
       setGameEnd(true);
       setPlayer("");
     }

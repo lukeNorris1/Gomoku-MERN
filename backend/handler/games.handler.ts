@@ -29,14 +29,14 @@ function gameFinishCheck(state: any) {
   ) {
     //if Winner is found choose black or white
     if (state.moves.length % 2 == 0){
-      state.winner = "White"
+      return "White"
     } else if (state.moves.length % 2 == 1){
-      state.winner = "Black"
+      return "Black"
     }
   }
   if (state.moves.length === state.size * state.size) {
     //if game is full change to draw
-    state.winner = "Draw"
+    return "Draw"
   }
 }
 
@@ -131,8 +131,7 @@ gameHandler.put(
     let game = req.body;
     const gameId = req.params.id;
 
-    gameFinishCheck(game)
-
+    game.winner = gameFinishCheck(game)
 
     const newGame = await updateGame(gameId, {
       ...game,
