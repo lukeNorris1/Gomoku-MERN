@@ -16,7 +16,6 @@ npm install
 npm install ./frontend
 ```
 
-### Run
 # Run Frontend and backend
 ```
 npm run dev
